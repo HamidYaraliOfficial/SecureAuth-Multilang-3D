@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="سامانه احراز هویت فوق پیشرفته با فناوری سه‌بعدی">
+  <meta name="theme-color" content="#0a0a15">
+  <title>SecureAuth Pro | سامانه احراز هویت پیشرفته</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS - Design System
+       ============================================================ */
+    :root {
+      --brand-1: #7C3AED;
+      --brand-2: #EC4899;
+      --brand-3: #06B6D4;
+      --brand-glow: 124, 58, 237;
+      --brand-glow-2: 236, 72, 153;
+      --brand-glow-3: 6, 182, 212;
+
+      --bg-deep: #05040d;
+      --bg-mid: #0a0818;
+
+      --text-1: #ffffff;
+      --text-2: rgba(255, 255, 255, 0.75);
+      --text-3: rgba(255, 255, 255, 0.45);
+      --text-4: rgba(255, 255, 255, 0.25);
+
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-highlight: rgba(255, 255, 255, 0.08);
+
+      --radius-xl: 32px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================
+       THEMES
+       ============================================================ */
+    [data-theme="cosmic-violet"] {
+      --brand-1: #7C3AED;
+      --brand-2: #EC4899;
+      --brand-3: #06B6D4;
+      --brand-glow: 124, 58, 237;
+      --brand-glow-2: 236, 72, 153;
+      --brand-glow-3: 6, 182, 212;
+      --bg-deep: #05040d;
+      --bg-mid: #0a0818;
+    }
+
+    [data-theme="midnight-gold"] {
+      --brand-1: #F59E0B;
+      --brand-2: #EF4444;
+      --brand-3: #FBBF24;
+      --brand-glow: 245, 158, 11;
+      --brand-glow-2: 239, 68, 68;
+      --brand-glow-3: 251, 191, 36;
+      --bg-deep: #0a0700;
+      --bg-mid: #17110a;
+    }
+
+    [data-theme="cyber-punk"] {
+      --brand-1: #EC4899;
+      --brand-2: #06B6D4;
+      --brand-3: #8B5CF6;
+      --brand-glow: 236, 72, 153;
+      --brand-glow-2: 6, 182, 212;
+      --brand-glow-3: 139, 92, 246;
+      --bg-deep: #0a0014;
+      --bg-mid: #150026;
+    }
+
+    [data-theme="emerald-matrix"] {
+      --brand-1: #10B981;
+      --brand-2: #06B6D4;
+      --brand-3: #84CC16;
+      --brand-glow: 16, 185, 129;
+      --brand-glow-2: 6, 182, 212;
+      --brand-glow-3: 132, 204, 22;
+      --bg-deep: #000806;
+      --bg-mid: #021a13;
+    }
+
+    [data-theme="deep-ocean"] {
+      --brand-1: #0EA5E9;
+      --brand-2: #6366F1;
+      --brand-3: #06B6D4;
+      --brand-glow: 14, 165, 233;
+      --brand-glow-2: 99, 102, 241;
+      --brand-glow-3: 6, 182, 212;
+      --bg-deep: #00050f;
+      --bg-mid: #020b1f;
+    }
+
+    [data-theme="royal-rose"] {
+      --brand-1: #F43F5E;
+      --brand-2: #A855F7;
+      --brand-3: #FB7185;
+      --brand-glow: 244, 63, 94;
+      --brand-glow-2: 168, 85, 247;
+      --brand-glow-3: 251, 113, 133;
+      --bg-deep: #0f0008;
+      --bg-mid: #1a0310;
+    }
+
+    /* ============================================================
+       RESET
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Vazirmatn', 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       ANIMATED AURORA BACKGROUND
+       ============================================================ */
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse at top, var(--bg-mid) 0%, var(--bg-deep) 70%);
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+
+    .aurora-blob:nth-child(1) {
+      width: 600px;
+      height: 600px;
+      background: rgba(var(--brand-glow), 0.9);
+      top: -200px;
+      left: -200px;
+      animation: auroraMove1 22s ease-in-out infinite;
+    }
+
+    .aurora-blob:nth-child(2) {
+      width: 500px;
+      height: 500px;
+      background: rgba(var(--brand-glow-2), 0.8);
+      bottom: -150px;
+      right: -150px;
+      animation: auroraMove2 26s ease-in-out infinite;
+    }
+
+    .aurora-blob:nth-child(3) {
+      width: 450px;
+      height: 450px;
+      background: rgba(var(--brand-glow-3), 0.7);
+      top: 40%;
+      left: 50%;
+      animation: auroraMove3 30s ease-in-out infinite;
+    }
+
+    @keyframes auroraMove1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(180px, 120px) scale(1.15); }
+      66% { transform: translate(-80px, 220px) scale(0.9); }
+    }
+
+    @keyframes auroraMove2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-200px, -140px) scale(1.2); }
+      66% { transform: translate(100px, -200px) scale(0.95); }
+    }
+
+    @keyframes auroraMove3 {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      50% { transform: translate(-30%, -120px) scale(1.3); }
+    }
+
+    /* ============================================================
+       GRID OVERLAY
+       ============================================================ */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       PARTICLE CANVAS
+       ============================================================ */
+    #particleCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       TOP CONTROLS
+       ============================================================ */
+    .top-controls {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 100;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .logo-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+      animation: fadeSlideDown 0.8s var(--ease-out-expo) both;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      position: relative;
+      box-shadow:
+        0 8px 24px rgba(var(--brand-glow), 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 8px 24px rgba(var(--brand-glow), 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+      50% { box-shadow: 0 12px 36px rgba(var(--brand-glow), 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-subtitle {
+      font-size: 10px;
+      color: var(--text-3);
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .controls-right {
+      display: flex;
+      gap: 10px;
+      pointer-events: auto;
+      animation: fadeSlideDown 0.8s var(--ease-out-expo) 0.1s both;
+    }
+
+    .glass-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      color: var(--text-1);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.35s var(--ease-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(var(--brand-glow), 0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.35s var(--ease-smooth);
+    }
+
+    .glass-btn:hover {
+      border-color: rgba(var(--brand-glow), 0.5);
+      box-shadow: 0 0 24px rgba(var(--brand-glow), 0.35);
+      transform: translateY(-2px);
+    }
+
+    .glass-btn:hover::before {
+      opacity: 1;
+    }
+
+    .glass-btn > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       THEME PALETTE
+       ============================================================ */
+    .theme-palette {
+      display: flex;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+    }
+
+    .theme-swatch {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.4s var(--ease-elastic);
+      position: relative;
+      padding: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-swatch::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .theme-swatch:hover {
+      transform: scale(1.2);
+    }
+
+    .theme-swatch.active {
+      border-color: #fff;
+      transform: scale(1.1);
+    }
+
+    .theme-swatch.active::after {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .theme-swatch[data-theme="cosmic-violet"] { background: linear-gradient(135deg, #7C3AED, #EC4899, #06B6D4); }
+    .theme-swatch[data-theme="midnight-gold"] { background: linear-gradient(135deg, #F59E0B, #EF4444, #FBBF24); }
+    .theme-swatch[data-theme="cyber-punk"]    { background: linear-gradient(135deg, #EC4899, #06B6D4, #8B5CF6); }
+    .theme-swatch[data-theme="emerald-matrix"]{ background: linear-gradient(135deg, #10B981, #06B6D4, #84CC16); }
+    .theme-swatch[data-theme="deep-ocean"]    { background: linear-gradient(135deg, #0EA5E9, #6366F1, #06B6D4); }
+    .theme-swatch[data-theme="royal-rose"]    { background: linear-gradient(135deg, #F43F5E, #A855F7, #FB7185); }
+
+    /* ============================================================
+       AUTH WRAPPER - 3D Scene
+       ============================================================ */
+    .auth-scene {
+      perspective: 2000px;
+      perspective-origin: 50% 50%;
+      width: 100%;
+      max-width: 480px;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Floating rings around card */
+    .orbit-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      border: 1px solid rgba(var(--brand-glow), 0.15);
+      pointer-events: none;
+      transform-style: preserve-3d;
+      animation: orbitSpin 20s linear infinite;
+    }
+
+    .orbit-ring:nth-child(1) {
+      width: 700px;
+      height: 700px;
+      margin: -350px 0 0 -350px;
+      border-color: rgba(var(--brand-glow), 0.12);
+      animation-duration: 30s;
+    }
+
+    .orbit-ring:nth-child(2) {
+      width: 850px;
+      height: 850px;
+      margin: -425px 0 0 -425px;
+      border-color: rgba(var(--brand-glow-2), 0.10);
+      animation-duration: 45s;
+      animation-direction: reverse;
+    }
+
+    .orbit-ring:nth-child(3) {
+      width: 1000px;
+      height: 1000px;
+      margin: -500px 0 0 -500px;
+      border-color: rgba(var(--brand-glow-3), 0.08);
+      animation-duration: 60s;
+    }
+
+    @keyframes orbitSpin {
+      from { transform: rotateZ(0deg) rotateX(70deg); }
+      to { transform: rotateZ(360deg) rotateX(70deg); }
+    }
+
+    /* ============================================================
+       AUTH CARD - Ultra Glassmorphism
+       ============================================================ */
+    .auth-card-wrap {
+      transform-style: preserve-3d;
+      transition: transform 0.15s var(--ease-smooth);
+      position: relative;
+      animation: cardEntrance 1.2s var(--ease-out-expo) both;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(80px) rotateX(-25deg) scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+      }
+    }
+
+    .auth-card {
+      position: relative;
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0.02) 100%);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 48px 40px;
+      overflow: hidden;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(var(--brand-glow), 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animated gradient border */
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-xl);
+      padding: 1px;
+      background: linear-gradient(135deg,
+        rgba(var(--brand-glow), 0.6),
+        rgba(var(--brand-glow-2), 0.4),
+        rgba(var(--brand-glow-3), 0.6));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.5;
+      animation: borderShift 6s ease-in-out infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes borderShift {
+      0%, 100% { background-position: 0% 0%; opacity: 0.5; }
+      50% { background-position: 100% 100%; opacity: 0.9; }
+    }
+
+    /* Light sweep effect */
+    .auth-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.06) 45%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.06) 55%,
+        transparent 70%);
+      pointer-events: none;
+      animation: lightSweep 8s ease-in-out infinite;
+    }
+
+    @keyframes lightSweep {
+      0%, 100% { transform: translate(-40%, -40%) rotate(0deg); }
+      50% { transform: translate(40%, 40%) rotate(0deg); }
+    }
+
+    /* Inner glow particles */
+    .card-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .card-glow.g1 {
+      width: 200px;
+      height: 200px;
+      background: rgba(var(--brand-glow), 0.4);
+      top: -100px;
+      right: -100px;
+      animation: glowFloat 8s ease-in-out infinite;
+    }
+
+    .card-glow.g2 {
+      width: 180px;
+      height: 180px;
+      background: rgba(var(--brand-glow-2), 0.35);
+      bottom: -90px;
+      left: -90px;
+      animation: glowFloat 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes glowFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.2); }
+    }
+
+    /* ============================================================
+       CARD CONTENT
+       ============================================================ */
+    .card-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    /* ============================================================
+       PANEL SYSTEM
+       ============================================================ */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+      animation: panelReveal 0.7s var(--ease-out-expo) both;
+    }
+
+    @keyframes panelReveal {
+      from {
+        opacity: 0;
+        transform: translateY(30px) rotateX(-12deg);
+        filter: blur(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+        filter: blur(0);
+      }
+    }
+
+    /* ============================================================
+       HEADER SECTION
+       ============================================================ */
+    .panel-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .icon-3d {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 20px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: icon3dFloat 5s ease-in-out infinite;
+      box-shadow:
+        0 20px 40px rgba(var(--brand-glow), 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .icon-3d::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 27px;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2), var(--brand-3));
+      filter: blur(20px);
+      opacity: 0.65;
+      z-index: -1;
+      animation: iconGlowPulse 3s ease-in-out infinite;
+    }
+
+    .icon-3d::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 12px;
+      right: 12px;
+      height: 30%;
+      border-radius: 24px 24px 50% 50%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes icon3dFloat {
+      0%, 100% { transform: translateY(0) rotateZ(0deg) rotateY(0deg); }
+      25% { transform: translateY(-6px) rotateZ(-2deg) rotateY(8deg); }
+      50% { transform: translateY(-10px) rotateZ(0deg) rotateY(0deg); }
+      75% { transform: translateY(-6px) rotateZ(2deg) rotateY(-8deg); }
+    }
+
+    @keyframes iconGlowPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.85; }
+    }
+
+    .panel-title {
+      font-family: 'Vazirmatn', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+    }
+
+    .panel-subtitle {
+      font-size: 14px;
+      color: var(--text-3);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       FORM FIELDS - Futuristic
+       ============================================================ */
+    .field {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 18px 52px 18px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      color: var(--text-1);
+      font-size: 15px;
+      font-family: inherit;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.4s var(--ease-smooth);
+      direction: inherit;
+      position: relative;
+      z-index: 2;
+    }
+
+    html[dir="rtl"] .field-input { padding: 18px 52px 18px 20px; }
+    html[dir="ltr"] .field-input { padding: 18px 20px 18px 52px; }
+
+    .field-input::placeholder {
+      color: var(--text-4);
+      font-weight: 400;
+    }
+
+    .field-input:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .field-input:focus {
+      border-color: rgba(var(--brand-glow), 0.7);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow:
+        0 0 0 4px rgba(var(--brand-glow), 0.15),
+        0 8px 32px rgba(var(--brand-glow), 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Animated underline on focus */
+    .field::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+      border-radius: 2px;
+      transition: all 0.5s var(--ease-out-expo);
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+
+    .field:focus-within::after {
+      width: calc(100% - 4px);
+    }
+
+    .field-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-4);
+      font-size: 17px;
+      transition: all 0.4s var(--ease-smooth);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    html[dir="rtl"] .field-icon { right: 18px; }
+    html[dir="ltr"] .field-icon { left: 18px; }
+
+    .field:focus-within .field-icon {
+      color: var(--brand-1);
+      transform: translateY(-50%) scale(1.15);
+      filter: drop-shadow(0 0 8px rgba(var(--brand-glow), 0.8));
+    }
+
+    .password-eye {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-4);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 8px;
+      border-radius: 10px;
+      transition: all 0.3s var(--ease-smooth);
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+    }
+
+    html[dir="rtl"] .password-eye { left: 14px; }
+    html[dir="ltr"] .password-eye { right: 14px; }
+
+    .password-eye:hover {
+      color: var(--brand-1);
+      background: rgba(var(--brand-glow), 0.15);
+    }
+
+    /* ============================================================
+       CHECKBOX & LINKS
+       ============================================================ */
+    .form-extras {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0 26px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-2);
+      user-select: none;
+      font-weight: 500;
+      transition: color 0.3s var(--ease-smooth);
+    }
+
+    .check-label:hover { color: var(--text-1); }
+
+    .check-label input { display: none; }
+
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease-smooth);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .check-box::after {
+      content: '';
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2.5px 2.5px 0;
+      transform: rotate(45deg) scale(0);
+      transition: transform 0.3s var(--ease-elastic);
+      margin-top: -2px;
+    }
+
+    .check-label input:checked + .check-box {
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      border-color: transparent;
+      box-shadow: 0 0 16px rgba(var(--brand-glow), 0.6);
+    }
+
+    .check-label input:checked + .check-box::after {
+      transform: rotate(45deg) scale(1);
+    }
+
+    .link-soft {
+      background: none;
+      border: none;
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: all 0.3s var(--ease-smooth);
+      position: relative;
+    }
+
+    .link-soft::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.35s var(--ease-out-expo);
+    }
+
+    .link-soft:hover {
+      color: var(--text-1);
+    }
+
+    .link-soft:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ============================================================
+       PRIMARY BUTTON - ULTRA
+       ============================================================ */
+    .btn-ultra {
+      position: relative;
+      width: 100%;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s var(--ease-out-expo);
+      transform-style: preserve-3d;
+      box-shadow:
+        0 12px 32px rgba(var(--brand-glow), 0.4),
+        0 0 60px rgba(var(--brand-glow), 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-ultra::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--brand-2), var(--brand-1));
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-smooth);
+      z-index: 1;
+    }
+
+    .btn-ultra::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transition: left 0.6s var(--ease-smooth);
+      z-index: 2;
+    }
+
+    .btn-ultra > span {
+      position: relative;
+      z-index: 3;
+    }
+
+    .btn-ultra:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow:
+        0 20px 48px rgba(var(--brand-glow), 0.55),
+        0 0 80px rgba(var(--brand-glow), 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-ultra:hover:not(:disabled)::before {
+      opacity: 1;
+    }
+
+    .btn-ultra:hover:not(:disabled)::after {
+      left: 100%;
+    }
+
+    .btn-ultra:active:not(:disabled) {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .btn-ultra:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+
+    .btn-ultra.loading {
+      pointer-events: none;
+    }
+
+    .btn-ultra.loading > span {
+      opacity: 0;
+    }
+
+    .btn-ultra.loading .spinner {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 22px;
+      height: 22px;
+      margin: -11px 0 0 -11px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s var(--ease-smooth);
+      animation: spinnerRotate 0.7s linear infinite;
+      z-index: 4;
+    }
+
+    @keyframes spinnerRotate {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================================
+       DIVIDER
+       ============================================================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 26px 0;
+      color: var(--text-4);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    /* ============================================================
+       SOCIAL BUTTONS
+       ============================================================ */
+    .social-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      color: var(--text-1);
+      cursor: pointer;
+      transition: all 0.35s var(--ease-out-expo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(var(--brand-glow), 0.2), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-smooth);
+    }
+
+    .social-btn:hover {
+      border-color: rgba(var(--brand-glow), 0.6);
+      transform: translateY(-3px);
+      box-shadow:
+        0 12px 28px rgba(var(--brand-glow), 0.3),
+        0 0 40px rgba(var(--brand-glow), 0.15);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .social-btn:hover::before {
+      opacity: 1;
+    }
+
+    .social-btn > span {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s var(--ease-elastic);
+    }
+
+    .social-btn:hover > span {
+      transform: scale(1.15);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .panel-footer {
+      text-align: center;
+      margin-top: 26px;
+      font-size: 14px;
+      color: var(--text-3);
+      line-height: 1.8;
+    }
+
+    .panel-footer button {
+      color: var(--brand-2);
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+      padding: 0 4px;
+      position: relative;
+    }
+
+    .panel-footer button::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: 4px;
+      left: 4px;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+      transform: scaleX(0);
+      transition: transform 0.35s var(--ease-out-expo);
+    }
+
+    .panel-footer button:hover {
+      color: #fff;
+      text-shadow: 0 0 16px rgba(var(--brand-glow-2), 0.8);
+    }
+
+    .panel-footer button:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ============================================================
+       BACK BUTTON
+       ============================================================ */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 9px 16px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+      transition: all 0.35s var(--ease-smooth);
+    }
+
+    .btn-back:hover {
+      color: var(--text-1);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(var(--brand-glow), 0.4);
+      transform: translateX(-4px);
+      box-shadow: 0 8px 20px rgba(var(--brand-glow), 0.2);
+    }
+
+    html[dir="ltr"] .btn-back:hover {
+      transform: translateX(4px);
+    }
+
+    /* ============================================================
+       SUCCESS PANEL
+       ============================================================ */
+    .success-wrap {
+      text-align: center;
+      padding: 24px 0 12px;
+    }
+
+    .success-circle {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10B981, #06B6D4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #fff;
+      position: relative;
+      box-shadow:
+        0 20px 48px rgba(16, 185, 129, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      animation: successPop 0.7s var(--ease-elastic);
+    }
+
+    .success-circle::before,
+    .success-circle::after {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 2px solid rgba(16, 185, 129, 0.5);
+      animation: successRing 2s ease-out infinite;
+    }
+
+    .success-circle::after {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes successPop {
+      0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+      60% { transform: scale(1.15) rotate(10deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    @keyframes successRing {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(150px);
+      min-width: 280px;
+      max-width: 90vw;
+      padding: 16px 22px;
+      background: rgba(15, 15, 25, 0.9);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(var(--brand-glow), 0.15);
+      opacity: 0;
+      transition: all 0.5s var(--ease-elastic);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .toast.success .toast-icon {
+      background: linear-gradient(135deg, #10B981, #06B6D4);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5);
+    }
+
+    .toast.error .toast-icon {
+      background: linear-gradient(135deg, #EF4444, #F43F5E);
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.5);
+    }
+
+    .toast.info .toast-icon {
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow: 0 4px 16px rgba(var(--brand-glow), 0.5);
+    }
+
+    /* ============================================================
+       LANG SWITCH
+       ============================================================ */
+    .lang-switch {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 100px;
+      color: var(--text-1);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.35s var(--ease-smooth);
+      letter-spacing: 0.5px;
+    }
+
+    .lang-switch:hover {
+      border-color: rgba(var(--brand-glow), 0.5);
+      box-shadow: 0 0 24px rgba(var(--brand-glow), 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 640px) {
+      .top-controls {
+        top: 16px;
+        left: 16px;
+        right: 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .logo-brand { justify-content: center; }
+      .controls-right { justify-content: center; flex-wrap: wrap; }
+      .theme-palette { padding: 8px 10px; }
+      .theme-swatch { width: 22px; height: 22px; }
+
+      .auth-card {
+        padding: 36px 24px;
+        border-radius: 26px;
+      }
+
+      .panel-title { font-size: 23px; }
+      .icon-3d {
+        width: 70px;
+        height: 70px;
+        font-size: 32px;
+        border-radius: 20px;
+      }
+
+      .orbit-ring { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      body { padding: 12px; }
+      .auth-card { padding: 28px 18px; }
+      .panel-title { font-size: 20px; }
+      .panel-subtitle { font-size: 13px; }
+      .field-input { padding: 16px 46px 16px 16px; font-size: 14px; }
+      html[dir="ltr"] .field-input { padding: 16px 16px 16px 46px; }
+      .social-btn { padding: 12px; font-size: 18px; }
+      .btn-ultra { padding: 16px 20px; font-size: 14px; }
+      .btn-back { font-size: 12px; padding: 8px 14px; }
+      .form-extras { font-size: 12px; }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ============================================================
+       FADE SLIDE DOWN UTILITY
+       ============================================================ */
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--brand-1), var(--brand-2));
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Aurora Background -->
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
+
+  <!-- Grid Overlay -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+  <!-- Top Controls -->
+  <header class="top-controls">
+    <div class="logo-brand">
+      <div class="logo-mark">🔒</div>
+      <div class="logo-text">
+        <span class="logo-title">SecureAuth</span>
+        <span class="logo-subtitle" data-fa="نسخه پیشرفته" data-en="Pro Edition">نسخه پیشرفته</span>
+      </div>
+    </div>
+
+    <div class="controls-right">
+      <div class="theme-palette" role="group" aria-label="انتخاب تم">
+        <button class="theme-swatch active" data-theme="cosmic-violet" aria-label="تم بنفش کیهانی"></button>
+        <button class="theme-swatch" data-theme="midnight-gold" aria-label="تم طلایی نیمه‌شب"></button>
+        <button class="theme-swatch" data-theme="cyber-punk" aria-label="تم سایبرپانک"></button>
+        <button class="theme-swatch" data-theme="emerald-matrix" aria-label="تم ماتریس زمرد"></button>
+        <button class="theme-swatch" data-theme="deep-ocean" aria-label="تم اقیانوس عمیق"></button>
+        <button class="theme-swatch" data-theme="royal-rose" aria-label="تم رز سلطنتی"></button>
+      </div>
+
+      <button class="lang-switch" id="langSwitch" onclick="toggleLanguage()" aria-label="تغییر زبان">
+        <span aria-hidden="true">🌐</span>
+        <span id="langLabel">EN</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Auth Scene -->
+  <main class="auth-scene" id="authScene">
+    <div class="orbit-ring" aria-hidden="true"></div>
+    <div class="orbit-ring" aria-hidden="true"></div>
+    <div class="orbit-ring" aria-hidden="true"></div>
+
+    <div class="auth-card-wrap" id="authCardWrap">
+      <div class="auth-card">
+        <div class="card-glow g1" aria-hidden="true"></div>
+        <div class="card-glow g2" aria-hidden="true"></div>
+
+        <div class="card-content">
+
+          <!-- ========== LOGIN PANEL ========== -->
+          <section class="panel active" id="panelLogin" aria-labelledby="loginTitle">
+            <div class="panel-header">
+              <div class="icon-3d" aria-hidden="true">🔐</div>
+              <h1 class="panel-title" id="loginTitle"
+                  data-fa="ورود به حساب کاربری" data-en="Welcome Back">
+                ورود به حساب کاربری
+              </h1>
+              <p class="panel-subtitle"
+                 data-fa="برای ادامه، اطلاعات کاربری خود را وارد نمایید"
+                 data-en="Enter your credentials to continue">
+                برای ادامه، اطلاعات کاربری خود را وارد نمایید
+              </p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" novalidate>
+              <div class="field">
+                <input type="email" class="field-input" id="loginEmail"
+                       placeholder="ایمیل"
+                       data-fa-placeholder="ایمیل" data-en-placeholder="Email address"
+                       autocomplete="email" required>
+                <span class="field-icon" aria-hidden="true">📧</span>
+              </div>
+
+              <div class="field">
+                <input type="password" class="field-input" id="loginPassword"
+                       placeholder="رمز عبور"
+                       data-fa-placeholder="رمز عبور" data-en-placeholder="Password"
+                       autocomplete="current-password" required>
+                <span class="field-icon" aria-hidden="true">🔒</span>
+                <button type="button" class="password-eye"
+                        onclick="togglePassword('loginPassword', this)" aria-label="نمایش رمز">👁</button>
+              </div>
+
+              <div class="form-extras">
+                <label class="check-label">
+                  <input type="checkbox" id="rememberMe">
+                  <span class="check-box" aria-hidden="true"></span>
+                  <span data-fa="مرا به خاطر بسپار" data-en="Remember me">مرا به خاطر بسپار</span>
+                </label>
+                <button type="button" class="link-soft"
+                        onclick="showPanel('panelForgot')"
+                        data-fa="رمز را فراموش کرده‌اید؟"
+                        data-en="Forgot password?">
+                  رمز را فراموش کرده‌اید؟
+                </button>
+              </div>
+
+              <button type="submit" class="btn-ultra">
+                <span data-fa="ورود به حساب" data-en="Sign In">ورود به حساب</span>
+                <div class="spinner" aria-hidden="true"></div>
+              </button>
+            </form>
+
+            <div class="divider" data-fa="یا" data-en="OR">یا</div>
+
+            <div class="social-row">
+              <button type="button" class="social-btn" onclick="socialLogin('Google')" aria-label="Google">
+                <span>🔍</span>
+              </button>
+              <button type="button" class="social-btn" onclick="socialLogin('GitHub')" aria-label="GitHub">
+                <span>⚡</span>
+              </button>
+              <button type="button" class="social-btn" onclick="socialLogin('Apple')" aria-label="Apple">
+                <span>🍎</span>
+              </button>
+            </div>
+
+            <div class="panel-footer">
+              <span data-fa="حساب کاربری ندارید؟" data-en="Don't have an account?">
+                حساب کاربری ندارید؟
+              </span>
+              <button type="button" onclick="showPanel('panelRegister')"
+                      data-fa="ثبت‌نام کنید" data-en="Sign up">ثبت‌نام کنید</button>
+            </div>
+          </section>
+
+          <!-- ========== REGISTER PANEL ========== -->
+          <section class="panel" id="panelRegister" aria-labelledby="registerTitle">
+            <button class="btn-back" onclick="showPanel('panelLogin')">
+              <span aria-hidden="true">←</span>
+              <span data-fa="بازگشت" data-en="Back">بازگشت</span>
+            </button>
+
+            <div class="panel-header">
+              <div class="icon-3d" aria-hidden="true">✨</div>
+              <h1 class="panel-title" id="registerTitle"
+                  data-fa="ایجاد حساب کاربری" data-en="Create Account">
+                ایجاد حساب کاربری
+              </h1>
+              <p class="panel-subtitle"
+                 data-fa="تنها در چند ثانیه حساب خود را بسازید"
+                 data-en="Create your account in just a few seconds">
+                تنها در چند ثانیه حساب خود را بسازید
+              </p>
+            </div>
+
+            <form onsubmit="handleRegister(event)" novalidate>
+              <div class="field">
+                <input type="text" class="field-input" id="registerName"
+                       placeholder="نام کامل"
+                       data-fa-placeholder="نام کامل" data-en-placeholder="Full name"
+                       autocomplete="name" required>
+                <span class="field-icon" aria-hidden="true">👤</span>
+              </div>
+
+              <div class="field">
+                <input type="email" class="field-input" id="registerEmail"
+                       placeholder="ایمیل"
+                       data-fa-placeholder="ایمیل" data-en-placeholder="Email address"
+                       autocomplete="email" required>
+                <span class="field-icon" aria-hidden="true">📧</span>
+              </div>
+
+              <div class="field">
+                <input type="password" class="field-input" id="registerPassword"
+                       placeholder="رمز عبور"
+                       data-fa-placeholder="رمز عبور" data-en-placeholder="Password"
+                       autocomplete="new-password" required>
+                <span class="field-icon" aria-hidden="true">🔒</span>
+                <button type="button" class="password-eye"
+                        onclick="togglePassword('registerPassword', this)" aria-label="نمایش رمز">👁</button>
+              </div>
+
+              <div class="field">
+                <input type="password" class="field-input" id="registerConfirm"
+                       placeholder="تکرار رمز عبور"
+                       data-fa-placeholder="تکرار رمز عبور" data-en-placeholder="Confirm password"
+                       autocomplete="new-password" required>
+                <span class="field-icon" aria-hidden="true">🔐</span>
+                <button type="button" class="password-eye"
+                        onclick="togglePassword('registerConfirm', this)" aria-label="نمایش رمز">👁</button>
+              </div>
+
+              <div class="form-extras">
+                <label class="check-label">
+                  <input type="checkbox" id="agreeTerms" required>
+                  <span class="check-box" aria-hidden="true"></span>
+                  <span data-fa="قوانین و مقررات را می‌پذیرم"
+                        data-en="I accept the terms & conditions">
+                    قوانین و مقررات را می‌پذیرم
+                  </span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn-ultra">
+                <span data-fa="ایجاد حساب" data-en="Create Account">ایجاد حساب</span>
+                <div class="spinner" aria-hidden="true"></div>
+              </button>
+            </form>
+
+            <div class="divider" data-fa="یا" data-en="OR">یا</div>
+
+            <div class="social-row">
+              <button type="button" class="social-btn" onclick="socialLogin('Google')" aria-label="Google">
+                <span>🔍</span>
+              </button>
+              <button type="button" class="social-btn" onclick="socialLogin('GitHub')" aria-label="GitHub">
+                <span>⚡</span>
+              </button>
+              <button type="button" class="social-btn" onclick="socialLogin('Apple')" aria-label="Apple">
+                <span>🍎</span>
+              </button>
+            </div>
+
+            <div class="panel-footer">
+              <span data-fa="قبلاً ثبت‌نام کرده‌اید؟" data-en="Already have an account?">
+                قبلاً ثبت‌نام کرده‌اید؟
+              </span>
+              <button type="button" onclick="showPanel('panelLogin')"
+                      data-fa="ورود به حساب" data-en="Sign in">ورود به حساب</button>
+            </div>
+          </section>
+
+          <!-- ========== FORGOT PASSWORD PANEL ========== -->
+          <section class="panel" id="panelForgot" aria-labelledby="forgotTitle">
+            <button class="btn-back" onclick="showPanel('panelLogin')">
+              <span aria-hidden="true">←</span>
+              <span data-fa="بازگشت" data-en="Back">بازگشت</span>
+            </button>
+
+            <div class="panel-header">
+              <div class="icon-3d" aria-hidden="true">🔑</div>
+              <h1 class="panel-title" id="forgotTitle"
+                  data-fa="بازیابی رمز عبور" data-en="Reset Password">
+                بازیابی رمز عبور
+              </h1>
+              <p class="panel-subtitle"
+                 data-fa="نشانی ایمیل خود را وارد کنید تا پیوند بازیابی ارسال شود"
+                 data-en="Enter your email to receive a password reset link">
+                نشانی ایمیل خود را وارد کنید تا پیوند بازیابی ارسال شود
+              </p>
+            </div>
+
+            <form onsubmit="handleForgot(event)" novalidate>
+              <div class="field">
+                <input type="email" class="field-input" id="forgotEmail"
+                       placeholder="ایمیل"
+                       data-fa-placeholder="ایمیل" data-en-placeholder="Email address"
+                       autocomplete="email" required>
+                <span class="field-icon" aria-hidden="true">📧</span>
+              </div>
+
+              <button type="submit" class="btn-ultra">
+                <span data-fa="ارسال پیوند بازیابی" data-en="Send Reset Link">ارسال پیوند بازیابی</span>
+                <div class="spinner" aria-hidden="true"></div>
+              </button>
+            </form>
+
+            <div class="panel-footer" style="margin-top: 26px;">
+              <span data-fa="رمز خود را به یاد آوردید؟" data-en="Remembered your password?">
+                رمز خود را به یاد آوردید؟
+              </span>
+              <button type="button" onclick="showPanel('panelLogin')"
+                      data-fa="بازگشت به ورود" data-en="Back to sign in">بازگشت به ورود</button>
+            </div>
+          </section>
+
+          <!-- ========== SUCCESS PANEL ========== -->
+          <section class="panel" id="panelSuccess" aria-labelledby="successTitle">
+            <div class="success-wrap">
+              <div class="success-circle" aria-hidden="true">✓</div>
+              <h1 class="panel-title" id="successTitle"
+                  data-fa="عملیات با موفقیت انجام شد"
+                  data-en="Success!">
+                عملیات با موفقیت انجام شد
+              </h1>
+              <p class="panel-subtitle" id="successMessage" style="margin-top: 12px;"></p>
+
+              <button type="button" class="btn-ultra" style="margin-top: 28px;"
+                      onclick="showPanel('panelLogin')">
+                <span data-fa="بازگشت به صفحه ورود" data-en="Return to Sign In">
+                  بازگشت به صفحه ورود
+                </span>
+              </button>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="toast-icon" id="toastIcon">✓</div>
+    <div class="toast-msg" id="toastMsg"></div>
+  </div>
+
+  <script>
+    /* ============================================================
+       STATE
+       ============================================================ */
+    const State = {
+      lang: 'fa',
+      theme: 'cosmic-violet'
+    };
+
+    /* ============================================================
+       PANEL MANAGEMENT
+       ============================================================ */
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) {
+        requestAnimationFrame(() => target.classList.add('active'));
+      }
+    }
+
+    /* ============================================================
+       LANGUAGE
+       ============================================================ */
+    function toggleLanguage() {
+      State.lang = State.lang === 'fa' ? 'en' : 'fa';
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const html = document.documentElement;
+      const label = document.getElementById('langLabel');
+
+      if (State.lang === 'fa') {
+        html.setAttribute('lang', 'fa');
+        html.setAttribute('dir', 'rtl');
+        label.textContent = 'EN';
+      } else {
+        html.setAttribute('lang', 'en');
+        html.setAttribute('dir', 'ltr');
+        label.textContent = 'FA';
+      }
+
+      document.querySelectorAll('[data-fa]').forEach(el => {
+        const t = State.lang === 'fa' ? el.dataset.fa : el.dataset.en;
+        if (t) el.textContent = t;
+      });
+
+      document.querySelectorAll('[data-fa-placeholder]').forEach(el => {
+        el.placeholder = State.lang === 'fa'
+          ? el.dataset.faPlaceholder
+          : el.dataset.enPlaceholder;
+      });
+
+      localStorage.setItem('sa_lang', State.lang);
+    }
+
+    /* ============================================================
+       THEME
+       ============================================================ */
+    function setTheme(name) {
+      State.theme = name;
+      document.documentElement.setAttribute('data-theme', name);
+      document.querySelectorAll('.theme-swatch').forEach(s => {
+        s.classList.toggle('active', s.dataset.theme === name);
+      });
+      localStorage.setItem('sa_theme', name);
+    }
+
+    document.querySelectorAll('.theme-swatch').forEach(s => {
+      s.addEventListener('click', () => setTheme(s.dataset.theme));
+    });
+
+    /* ============================================================
+       PASSWORD TOGGLE
+       ============================================================ */
+    function togglePassword(id, btn) {
+      const input = document.getElementById(id);
+      const hidden = input.type === 'password';
+      input.type = hidden ? 'text' : 'password';
+      btn.textContent = hidden ? '🙈' : '👁';
+    }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    let toastTimer;
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toastIcon');
+      const msgEl = document.getElementById('toastMsg');
+
+      msgEl.textContent = msg;
+      toast.className = 'toast show ' + type;
+      icon.textContent = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3400);
+    }
+
+    /* ============================================================
+       VALIDATION
+       ============================================================ */
+    const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    /* ============================================================
+       FORM HANDLERS
+       ============================================================ */
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+
+      if (!isValidEmail(email)) {
+        showToast(t('ایمیل معتبر وارد کنید', 'Please enter a valid email'), 'error');
+        return;
+      }
+      if (pass.length < 6) {
+        showToast(t('رمز عبور حداقل ۶ کاراکتر', 'Password must be 6+ characters'), 'error');
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-ultra');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showSuccess(t('ورود با موفقیت انجام شد. خوش آمدید!', 'Signed in successfully. Welcome!'));
+      }, 1600);
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('registerName').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const pass = document.getElementById('registerPassword').value;
+      const confirm = document.getElementById('registerConfirm').value;
+
+      if (name.length < 3) {
+        showToast(t('نام حداقل ۳ کاراکتر', 'Name must be 3+ characters'), 'error');
+        return;
+      }
+      if (!isValidEmail(email)) {
+        showToast(t('ایمیل معتبر وارد کنید', 'Please enter a valid email'), 'error');
+        return;
+      }
+      if (pass.length < 6) {
+        showToast(t('رمز عبور حداقل ۶ کاراکتر', 'Password must be 6+ characters'), 'error');
+        return;
+      }
+      if (pass !== confirm) {
+        showToast(t('رمزها یکسان نیستند', 'Passwords do not match'), 'error');
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-ultra');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showSuccess(t('حساب کاربری شما با موفقیت ایجاد شد.', 'Your account was created successfully.'));
+      }, 1600);
+    }
+
+    function handleForgot(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value.trim();
+
+      if (!isValidEmail(email)) {
+        showToast(t('ایمیل معتبر وارد کنید', 'Please enter a valid email'), 'error');
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-ultra');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showSuccess(t('پیوند بازیابی به ایمیل شما ارسال شد.', 'Password reset link sent to your email.'));
+      }, 1600);
+    }
+
+    function showSuccess(msg) {
+      const msgEl = document.getElementById('successMessage');
+      msgEl.textContent = msg;
+      msgEl.removeAttribute('data-fa');
+      msgEl.removeAttribute('data-en');
+      showPanel('panelSuccess');
+      showToast(t('عملیات موفق', 'Success'), 'success');
+    }
+
+    function socialLogin(provider) {
+      showToast(t(`ورود با ${provider} فعال نیست`, `Sign in with ${provider} is not available`), 'info');
+    }
+
+    function t(fa, en) {
+      return State.lang === 'fa' ? fa : en;
+    }
+
+    /* ============================================================
+       3D TILT ON CARD
+       ============================================================ */
+    (function init3DTilt() {
+      const wrap = document.getElementById('authCardWrap');
+      const scene = document.getElementById('authScene');
+      if (!wrap || !scene) return;
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const touch = window.matchMedia('(hover: none)').matches;
+      if (reduced || touch) return;
+
+      let rafId = null;
+
+      scene.addEventListener('mousemove', (e) => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = scene.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          const rotY = (x - 0.5) * 18;
+          const rotX = (0.5 - y) * 18;
+          wrap.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(0)`;
+        });
+      });
+
+      scene.addEventListener('mouseleave', () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        wrap.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    })();
+
+    /* ============================================================
+       PARTICLE CANVAS
+       ============================================================ */
+    (function initParticles() {
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+
+      let width, height, dpr;
+      const particles = [];
+      const particleCount = window.innerWidth < 768 ? 40 : 80;
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+      }
+
+      function getColor() {
+        const root = getComputedStyle(document.documentElement);
+        const glow = root.getPropertyValue('--brand-glow').trim() || '124, 58, 237';
+        return glow;
+      }
+
+      function createParticle() {
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: Math.random() * 1.8 + 0.4,
+          alpha: Math.random() * 0.6 + 0.2,
+          pulse: Math.random() * Math.PI * 2
+        };
+      }
+
+      function initParticleSet() {
+        particles.length = 0;
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(createParticle());
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        const color = getColor();
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.pulse += 0.02;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          const alpha = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${color}, ${alpha})`;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = `rgba(${color}, ${alpha})`;
+          ctx.fill();
+        }
+
+        // Connections
+        ctx.shadowBlur = 0;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < 12000) {
+              const opacity = (1 - d2 / 12000) * 0.12;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(${color}, ${opacity})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      function start() {
+        resize();
+        initParticleSet();
+        draw();
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        initParticleSet();
+      });
+
+      start();
+    })();
+
+    /* ============================================================
+       KEYBOARD
+       ============================================================ */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') showPanel('panelLogin');
+    });
+
+    /* ============================================================
+       INIT
+       ============================================================ */
+    (function init() {
+      const savedTheme = localStorage.getItem('sa_theme');
+      const savedLang = localStorage.getItem('sa_lang');
+
+      if (savedTheme) setTheme(savedTheme);
+      if (savedLang) State.lang = savedLang;
+
+      applyLanguage();
+    })();
+  </script>
+</body>
+</html>
