@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="سامانه احراز هویت امن - ورود، ثبت‌نام و بازیابی رمز عبور">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>سامانه احراز هویت | Authentication Portal</title>
+
+  <!-- فونت‌های رسمی -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       متغیرهای سراسری - Global Design Tokens
+       ============================================================ */
+    :root {
+      --brand-primary: #6C63FF;
+      --brand-secondary: #8B85FF;
+      --brand-accent: #4A42D6;
+      --surface-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --surface-card: rgba(255, 255, 255, 0.08);
+      --surface-border: rgba(255, 255, 255, 0.18);
+      --surface-input: rgba(255, 255, 255, 0.10);
+      --surface-input-hover: rgba(255, 255, 255, 0.16);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.72);
+      --text-tertiary: rgba(255, 255, 255, 0.45);
+      --shadow-elevated: 0 25px 60px -15px rgba(0, 0, 0, 0.45);
+      --shadow-glow: 0 0 40px rgba(108, 99, 255, 0.35);
+      --radius-card: 24px;
+      --radius-input: 14px;
+      --radius-button: 14px;
+      --easing-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --easing-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* ============================================================
+       تم‌های رنگی سازمانی - Corporate Themes
+       ============================================================ */
+    [data-theme="royal-purple"] {
+      --brand-primary: #6C63FF;
+      --brand-secondary: #8B85FF;
+      --brand-accent: #4A42D6;
+      --surface-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --shadow-glow: 0 0 40px rgba(108, 99, 255, 0.35);
+    }
+
+    [data-theme="crimson-sunset"] {
+      --brand-primary: #FF6B6B;
+      --brand-secondary: #FF8E8E;
+      --brand-accent: #E04E4E;
+      --surface-bg: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --shadow-glow: 0 0 40px rgba(255, 107, 107, 0.35);
+    }
+
+    [data-theme="azure-ocean"] {
+      --brand-primary: #4ECDC4;
+      --brand-secondary: #6EE7DE;
+      --brand-accent: #3BA99F;
+      --surface-bg: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+      --shadow-glow: 0 0 40px rgba(78, 205, 196, 0.35);
+    }
+
+    [data-theme="obsidian-night"] {
+      --brand-primary: #A78BFA;
+      --brand-secondary: #C4B5FD;
+      --brand-accent: #7C3AED;
+      --surface-bg: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      --shadow-glow: 0 0 40px rgba(167, 139, 250, 0.35);
+    }
+
+    [data-theme="emerald-forest"] {
+      --brand-primary: #34D399;
+      --brand-secondary: #6EE7B7;
+      --brand-accent: #059669;
+      --surface-bg: linear-gradient(135deg, #134E5E 0%, #71B280 100%);
+      --shadow-glow: 0 0 40px rgba(52, 211, 153, 0.35);
+    }
+
+    [data-theme="champagne-rose"] {
+      --brand-primary: #F472B6;
+      --brand-secondary: #F9A8D4;
+      --brand-accent: #DB2777;
+      --surface-bg: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%);
+      --shadow-glow: 0 0 40px rgba(244, 114, 182, 0.35);
+      --text-primary: #4A1D3A;
+      --text-secondary: rgba(74, 29, 58, 0.75);
+      --text-tertiary: rgba(74, 29, 58, 0.5);
+      --surface-input: rgba(255, 255, 255, 0.5);
+      --surface-input-hover: rgba(255, 255, 255, 0.7);
+      --surface-border: rgba(74, 29, 58, 0.15);
+      --surface-card: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ============================================================
+       ریست و تنظیمات پایه - Base Reset
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Vazirmatn', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--surface-bg);
+      background-size: 400% 400%;
+      animation: ambientGradient 20s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 20px;
+      position: relative;
+      color: var(--text-primary);
+      transition: background 0.8s var(--easing-smooth);
+    }
+
+    @keyframes ambientGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ============================================================
+       پس‌زمینه تزئینی - Decorative Background
+       ============================================================ */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-orbs span {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(2px);
+      animation: orbFloat 30s linear infinite;
+      bottom: -200px;
+    }
+
+    .bg-orbs span:nth-child(1) { left: 15%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bg-orbs span:nth-child(2) { left: 35%; width: 30px; height: 30px; animation-delay: 3s; animation-duration: 22s; }
+    .bg-orbs span:nth-child(3) { left: 55%; width: 60px; height: 60px; animation-delay: 6s; animation-duration: 28s; }
+    .bg-orbs span:nth-child(4) { left: 75%; width: 100px; height: 100px; animation-delay: 2s; animation-duration: 35s; }
+    .bg-orbs span:nth-child(5) { left: 5%; width: 40px; height: 40px; animation-delay: 8s; animation-duration: 25s; }
+    .bg-orbs span:nth-child(6) { left: 90%; width: 70px; height: 70px; animation-delay: 4s; animation-duration: 30s; }
+
+    @keyframes orbFloat {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-1200px) rotate(360deg); opacity: 0; }
+    }
+
+    /* ============================================================
+       کنترل‌های بالای صفحه - Top Control Bar
+       ============================================================ */
+    .top-controls {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .control-cluster {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--surface-border);
+      border-radius: 100px;
+      padding: 6px 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      pointer-events: auto;
+      transition: all 0.3s var(--easing-smooth);
+    }
+
+    .control-cluster:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .control-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--easing-smooth);
+      font-size: 16px;
+      position: relative;
+    }
+
+    .control-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .control-icon-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    .lang-switch {
+      width: auto;
+      padding: 0 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      gap: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ============================================================
+       پالت تم - Theme Palette
+       ============================================================ */
+    .theme-palette {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 0 6px;
+    }
+
+    .theme-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.35s var(--easing-elastic);
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .theme-swatch:hover {
+      transform: scale(1.18);
+    }
+
+    .theme-swatch.active {
+      border-color: #fff;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25);
+      transform: scale(1.12);
+    }
+
+    .theme-swatch[data-theme="royal-purple"]    { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .theme-swatch[data-theme="crimson-sunset"]  { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .theme-swatch[data-theme="azure-ocean"]     { background: linear-gradient(135deg, #43cea2, #185a9d); }
+    .theme-swatch[data-theme="obsidian-night"]  { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
+    .theme-swatch[data-theme="emerald-forest"]  { background: linear-gradient(135deg, #134E5E, #71B280); }
+    .theme-swatch[data-theme="champagne-rose"]  { background: linear-gradient(135deg, #ee9ca7, #ffdde1); }
+
+    /* ============================================================
+       کانتینر کارت - Card Container
+       ============================================================ */
+    .auth-container {
+      perspective: 1600px;
+      width: 100%;
+      max-width: 460px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .auth-card {
+      width: 100%;
+      background: var(--surface-card);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-card);
+      padding: 44px 36px;
+      box-shadow:
+        var(--shadow-elevated),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+      transform-style: preserve-3d;
+      transition: transform 0.5s var(--easing-smooth);
+      position: relative;
+      overflow: hidden;
+      animation: cardEntrance 0.9s var(--easing-elastic) forwards;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+      transition: left 0.9s var(--easing-smooth);
+      pointer-events: none;
+    }
+
+    .auth-card:hover::before {
+      left: 100%;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(60px) rotateX(-12deg) scale(0.94);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0) scale(1);
+      }
+    }
+
+    /* ============================================================
+       صفحات فرم - Form Panels
+       ============================================================ */
+    .form-panel {
+      display: none;
+    }
+
+    .form-panel.active {
+      display: block;
+      animation: panelEnter 0.6s var(--easing-elastic) forwards;
+    }
+
+    @keyframes panelEnter {
+      from {
+        opacity: 0;
+        transform: translateY(24px) rotateX(-6deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+    }
+
+    /* ============================================================
+       سربرگ فرم - Form Header
+       ============================================================ */
+    .form-emblem {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 22px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #fff;
+      box-shadow:
+        0 12px 32px var(--shadow-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      animation: emblemFloat 4s ease-in-out infinite;
+      position: relative;
+    }
+
+    .form-emblem::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      opacity: 0.25;
+      filter: blur(16px);
+      z-index: -1;
+    }
+
+    @keyframes emblemFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
+    }
+
+    .form-heading {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: -0.4px;
+      line-height: 1.3;
+    }
+
+    .form-caption {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       فیلدهای ورودی - Form Fields
+       ============================================================ */
+    .field-wrapper {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .field-wrapper .field-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 17px;
+      transition: color 0.3s var(--easing-smooth);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    html[dir="rtl"] .field-wrapper .field-icon { right: 16px; }
+    html[dir="ltr"] .field-wrapper .field-icon { left: 16px; }
+
+    .field-wrapper input {
+      width: 100%;
+      padding: 16px 48px;
+      background: var(--surface-input);
+      border: 1.5px solid var(--surface-border);
+      border-radius: var(--radius-input);
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      font-weight: 400;
+      outline: none;
+      transition: all 0.3s var(--easing-smooth);
+      direction: inherit;
+    }
+
+    .field-wrapper input::placeholder {
+      color: var(--text-tertiary);
+      font-weight: 400;
+    }
+
+    .field-wrapper input:hover {
+      background: var(--surface-input-hover);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .field-wrapper input:focus {
+      border-color: var(--brand-primary);
+      background: var(--surface-input-hover);
+      box-shadow: 0 0 0 4px var(--shadow-glow);
+    }
+
+    .field-wrapper input:focus ~ .field-icon {
+      color: var(--brand-primary);
+    }
+
+    .password-toggle {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-size: 15px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: all 0.3s var(--easing-smooth);
+      z-index: 3;
+    }
+
+    html[dir="rtl"] .password-toggle { left: 14px; }
+    html[dir="ltr"] .password-toggle { right: 14px; }
+
+    .password-toggle:hover {
+      color: var(--brand-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* ============================================================
+       گزینه‌های فرم - Form Options
+       ============================================================ */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      user-select: none;
+      transition: color 0.3s var(--easing-smooth);
+    }
+
+    .checkbox-label:hover {
+      color: var(--text-primary);
+    }
+
+    .checkbox-label input {
+      display: none;
+    }
+
+    .checkbox-box {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--surface-border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--easing-smooth);
+      position: relative;
+      flex-shrink: 0;
+      background: var(--surface-input);
+    }
+
+    .checkbox-label input:checked + .checkbox-box {
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 14px var(--shadow-glow);
+    }
+
+    .checkbox-box::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+      transition: transform 0.25s var(--easing-elastic);
+      margin-bottom: 2px;
+    }
+
+    .checkbox-label input:checked + .checkbox-box::after {
+      transform: rotate(45deg) scale(1);
+    }
+
+    .text-link {
+      color: var(--brand-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s var(--easing-smooth);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+      position: relative;
+    }
+
+    .text-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: var(--brand-secondary);
+      transform: scaleX(0);
+      transition: transform 0.3s var(--easing-smooth);
+    }
+
+    .text-link:hover {
+      color: var(--text-primary);
+    }
+
+    .text-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ============================================================
+       دکمه اصلی - Primary Action Button
+       ============================================================ */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      border: none;
+      border-radius: var(--radius-button);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.35s var(--easing-smooth);
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 10px 28px var(--shadow-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.4px;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.7s var(--easing-smooth);
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 38px var(--shadow-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-submit:hover:not(:disabled)::before {
+      left: 100%;
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* ============================================================
+       جداکننده - Divider
+       ============================================================ */
+    .divider-text {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 26px 0;
+      color: var(--text-tertiary);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .divider-text::before,
+    .divider-text::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--surface-border), transparent);
+    }
+
+    /* ============================================================
+       ورود اجتماعی - Social Authentication
+       ============================================================ */
+    .social-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .social-provider {
+      flex: 1;
+      padding: 13px;
+      background: var(--surface-input);
+      border: 1.5px solid var(--surface-border);
+      border-radius: 14px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.35s var(--easing-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-family: inherit;
+    }
+
+    .social-provider:hover {
+      background: var(--surface-input-hover);
+      transform: translateY(-2px);
+      border-color: var(--brand-primary);
+      box-shadow: 0 10px 24px var(--shadow-glow);
+    }
+
+    .social-provider:active {
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       فوتر فرم - Form Footer
+       ============================================================ */
+    .form-footer {
+      text-align: center;
+      margin-top: 26px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .form-footer button {
+      color: var(--brand-secondary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s var(--easing-smooth);
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      padding: 0 4px;
+    }
+
+    .form-footer button:hover {
+      color: var(--text-primary);
+      text-shadow: 0 0 12px var(--shadow-glow);
+    }
+
+    /* ============================================================
+       دکمه بازگشت - Back Button
+       ============================================================ */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: all 0.3s var(--easing-smooth);
+    }
+
+    .btn-back:hover {
+      color: var(--text-primary);
+      background: var(--surface-input);
+      transform: translateX(-3px);
+    }
+
+    html[dir="ltr"] .btn-back:hover {
+      transform: translateX(3px);
+    }
+
+    /* ============================================================
+       پیام موفقیت - Success State
+       ============================================================ */
+    .success-panel {
+      text-align: center;
+      padding: 16px 0;
+      animation: panelEnter 0.5s var(--easing-elastic);
+    }
+
+    .success-badge {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 22px;
+      background: linear-gradient(135deg, #34D399, #059669);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      color: #fff;
+      box-shadow: 0 12px 36px rgba(52, 211, 153, 0.45);
+      animation: successPulse 2.2s ease infinite;
+      position: relative;
+    }
+
+    .success-badge::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px solid rgba(52, 211, 153, 0.4);
+      animation: successRing 2s ease infinite;
+    }
+
+    @keyframes successPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    @keyframes successRing {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+
+    /* ============================================================
+       اعلان‌ها - Toast Notifications
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(30, 30, 40, 0.95);
+      backdrop-filter: blur(20px);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transition: all 0.4s var(--easing-elastic);
+      z-index: 1000;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success { border-color: rgba(52, 211, 153, 0.5); }
+    .toast.error   { border-color: rgba(255, 107, 107, 0.5); }
+
+    /* ============================================================
+       ریسپانسیو - Responsive Breakpoints
+       ============================================================ */
+    @media (max-width: 520px) {
+      .auth-card {
+        padding: 34px 24px;
+        border-radius: 22px;
+      }
+
+      .form-emblem {
+        width: 62px;
+        height: 62px;
+        font-size: 26px;
+        border-radius: 18px;
+      }
+
+      .form-heading { font-size: 22px; }
+      .form-caption { font-size: 13px; margin-bottom: 26px; }
+
+      .top-controls {
+        top: 14px;
+        left: 14px;
+        right: 14px;
+      }
+
+      .control-cluster { padding: 4px 6px; }
+      .control-icon-btn { width: 34px; height: 34px; font-size: 14px; }
+      .theme-swatch { width: 20px; height: 20px; }
+      .theme-palette { gap: 4px; padding: 0 2px; }
+      .lang-switch { padding: 0 12px; font-size: 12px; }
+    }
+
+    @media (max-width: 380px) {
+      .auth-card { padding: 28px 18px; }
+      .form-heading { font-size: 20px; }
+      .field-wrapper input { padding: 14px 44px; font-size: 14px; }
+      .social-row { gap: 8px; }
+      .social-provider { padding: 11px; font-size: 16px; }
+    }
+
+    /* ============================================================
+       دسترس‌پذیری - Accessibility
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--brand-primary);
+      border-radius: 3px;
+    }
+
+    /* ============================================================
+       اسکرین‌ریدر - Screen Reader Only
+       ============================================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- پس‌زمینه تزئینی -->
+  <div class="bg-orbs" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- کنترل‌های بالای صفحه -->
+  <header class="top-controls">
+    <!-- پالت تم -->
+    <div class="control-cluster" role="group" aria-label="انتخاب تم رنگی">
+      <div class="theme-palette">
+        <button class="theme-swatch active" data-theme="royal-purple"    aria-label="تم بنفش سلطنتی"></button>
+        <button class="theme-swatch"        data-theme="crimson-sunset"  aria-label="تم غروب سرخ"></button>
+        <button class="theme-swatch"        data-theme="azure-ocean"     aria-label="تم اقیانوس آبی"></button>
+        <button class="theme-swatch"        data-theme="obsidian-night"  aria-label="تم شب نیمه‌شب"></button>
+        <button class="theme-swatch"        data-theme="emerald-forest"  aria-label="تم جنگل زمرد"></button>
+        <button class="theme-swatch"        data-theme="champagne-rose"  aria-label="تم رز شامپاینی"></button>
+      </div>
+    </div>
+
+    <!-- تغییر زبان -->
+    <div class="control-cluster">
+      <button class="control-icon-btn lang-switch" id="langToggle" onclick="toggleLanguage()" aria-label="تغییر زبان">
+        <span aria-hidden="true">🌐</span>
+        <span id="langLabel">EN</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- کانتینر اصلی -->
+  <main class="auth-container">
+    <div class="auth-card" id="authCard">
+
+      <!-- ============ پنل ورود ============ -->
+      <section class="form-panel active" id="panelLogin" aria-labelledby="loginTitle">
+        <div class="form-emblem" aria-hidden="true">🔐</div>
+        <h1 class="form-heading" id="loginTitle"
+            data-fa="ورود به سامانه" data-en="Sign In to Portal">ورود به سامانه</h1>
+        <p class="form-caption"
+           data-fa="برای دسترسی به حساب کاربری، اطلاعات خود را وارد نمایید"
+           data-en="Please enter your credentials to access your account">
+           برای دسترسی به حساب کاربری، اطلاعات خود را وارد نمایید
+        </p>
+
+        <form onsubmit="handleLogin(event)" novalidate>
+          <div class="field-wrapper">
+            <input type="email" id="loginEmail" placeholder="ایمیل"
+                   data-fa-placeholder="ایمیل" data-en-placeholder="Email"
+                   autocomplete="email" required>
+            <span class="field-icon" aria-hidden="true">📧</span>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="password" id="loginPassword" placeholder="رمز عبور"
+                   data-fa-placeholder="رمز عبور" data-en-placeholder="Password"
+                   autocomplete="current-password" required>
+            <span class="field-icon" aria-hidden="true">🔒</span>
+            <button type="button" class="password-toggle"
+                    onclick="togglePassword('loginPassword', this)"
+                    aria-label="نمایش رمز عبور">👁️</button>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe">
+              <span class="checkbox-box" aria-hidden="true"></span>
+              <span data-fa="مرا به خاطر بسپار" data-en="Remember me">مرا به خاطر بسپار</span>
+            </label>
+            <button type="button" class="text-link"
+                    onclick="showPanel('panelForgot')"
+                    data-fa="رمز عبور را فراموش کرده‌اید؟"
+                    data-en="Forgot your password?">
+              رمز عبور را فراموش کرده‌اید؟
+            </button>
+          </div>
+
+          <button type="submit" class="btn-submit"
+                  data-fa="ورود به حساب" data-en="Sign In">
+            ورود به حساب
+          </button>
+        </form>
+
+        <div class="divider-text" data-fa="یا" data-en="OR">یا</div>
+
+        <div class="social-row">
+          <button class="social-provider" onclick="socialLogin('Google')"   aria-label="ورود با گوگل">🔍</button>
+          <button class="social-provider" onclick="socialLogin('Facebook')" aria-label="ورود با فیسبوک">📘</button>
+          <button class="social-provider" onclick="socialLogin('Apple')"    aria-label="ورود با اپل">🍎</button>
+        </div>
+
+        <div class="form-footer">
+          <span data-fa="حساب کاربری ندارید؟" data-en="Don't have an account?">
+            حساب کاربری ندارید؟
+          </span>
+          <button onclick="showPanel('panelRegister')"
+                  data-fa="ثبت‌نام نمایید" data-en="Register now">ثبت‌نام نمایید</button>
+        </div>
+      </section>
+
+      <!-- ============ پنل ثبت‌نام ============ -->
+      <section class="form-panel" id="panelRegister" aria-labelledby="registerTitle">
+        <button class="btn-back" onclick="showPanel('panelLogin')">
+          <span aria-hidden="true">←</span>
+          <span data-fa="بازگشت" data-en="Back">بازگشت</span>
+        </button>
+
+        <div class="form-emblem" aria-hidden="true">✨</div>
+        <h1 class="form-heading" id="registerTitle"
+            data-fa="ایجاد حساب کاربری" data-en="Create Account">ایجاد حساب کاربری</h1>
+        <p class="form-caption"
+           data-fa="برای استفاده از خدمات، فرم زیر را تکمیل نمایید"
+           data-en="Complete the form below to get started">
+           برای استفاده از خدمات، فرم زیر را تکمیل نمایید
+        </p>
+
+        <form onsubmit="handleRegister(event)" novalidate>
+          <div class="field-wrapper">
+            <input type="text" id="registerName" placeholder="نام و نام خانوادگی"
+                   data-fa-placeholder="نام و نام خانوادگی" data-en-placeholder="Full Name"
+                   autocomplete="name" required>
+            <span class="field-icon" aria-hidden="true">👤</span>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="email" id="registerEmail" placeholder="ایمیل"
+                   data-fa-placeholder="ایمیل" data-en-placeholder="Email"
+                   autocomplete="email" required>
+            <span class="field-icon" aria-hidden="true">📧</span>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="password" id="registerPassword" placeholder="رمز عبور"
+                   data-fa-placeholder="رمز عبور" data-en-placeholder="Password"
+                   autocomplete="new-password" required>
+            <span class="field-icon" aria-hidden="true">🔒</span>
+            <button type="button" class="password-toggle"
+                    onclick="togglePassword('registerPassword', this)"
+                    aria-label="نمایش رمز عبور">👁️</button>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="password" id="registerConfirm" placeholder="تکرار رمز عبور"
+                   data-fa-placeholder="تکرار رمز عبور" data-en-placeholder="Confirm Password"
+                   autocomplete="new-password" required>
+            <span class="field-icon" aria-hidden="true">🔐</span>
+            <button type="button" class="password-toggle"
+                    onclick="togglePassword('registerConfirm', this)"
+                    aria-label="نمایش رمز عبور">👁️</button>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="agreeTerms" required>
+              <span class="checkbox-box" aria-hidden="true"></span>
+              <span data-fa="قوانین و مقررات را می‌پذیرم"
+                    data-en="I accept the Terms of Service">
+                قوانین و مقررات را می‌پذیرم
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit"
+                  data-fa="ایجاد حساب کاربری" data-en="Create Account">
+            ایجاد حساب کاربری
+          </button>
+        </form>
+
+        <div class="divider-text" data-fa="یا" data-en="OR">یا</div>
+
+        <div class="social-row">
+          <button class="social-provider" onclick="socialLogin('Google')"   aria-label="ثبت‌نام با گوگل">🔍</button>
+          <button class="social-provider" onclick="socialLogin('Facebook')" aria-label="ثبت‌نام با فیسبوک">📘</button>
+          <button class="social-provider" onclick="socialLogin('Apple')"    aria-label="ثبت‌نام با اپل">🍎</button>
+        </div>
+
+        <div class="form-footer">
+          <span data-fa="قبلاً ثبت‌نام کرده‌اید؟" data-en="Already registered?">
+            قبلاً ثبت‌نام کرده‌اید؟
+          </span>
+          <button onclick="showPanel('panelLogin')"
+                  data-fa="ورود به حساب" data-en="Sign In">ورود به حساب</button>
+        </div>
+      </section>
+
+      <!-- ============ پنل فراموشی رمز ============ -->
+      <section class="form-panel" id="panelForgot" aria-labelledby="forgotTitle">
+        <button class="btn-back" onclick="showPanel('panelLogin')">
+          <span aria-hidden="true">←</span>
+          <span data-fa="بازگشت" data-en="Back">بازگشت</span>
+        </button>
+
+        <div class="form-emblem" aria-hidden="true">🔑</div>
+        <h1 class="form-heading" id="forgotTitle"
+            data-fa="بازیابی رمز عبور" data-en="Password Recovery">بازیابی رمز عبور</h1>
+        <p class="form-caption"
+           data-fa="نشانی ایمیل خود را وارد نمایید تا پیوند بازیابی برای شما ارسال گردد"
+           data-en="Enter your email address and we'll send you a reset link">
+           نشانی ایمیل خود را وارد نمایید تا پیوند بازیابی برای شما ارسال گردد
+        </p>
+
+        <form onsubmit="handleForgot(event)" novalidate>
+          <div class="field-wrapper">
+            <input type="email" id="forgotEmail" placeholder="ایمیل"
+                   data-fa-placeholder="ایمیل" data-en-placeholder="Email"
+                   autocomplete="email" required>
+            <span class="field-icon" aria-hidden="true">📧</span>
+          </div>
+
+          <button type="submit" class="btn-submit"
+                  data-fa="ارسال پیوند بازیابی" data-en="Send Reset Link">
+            ارسال پیوند بازیابی
+          </button>
+        </form>
+
+        <div class="form-footer" style="margin-top: 26px;">
+          <span data-fa="رمز عبور خود را به یاد آوردید؟"
+                data-en="Remembered your password?">
+            رمز عبور خود را به یاد آوردید؟
+          </span>
+          <button onclick="showPanel('panelLogin')"
+                  data-fa="بازگشت به ورود" data-en="Back to Sign In">
+            بازگشت به ورود
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ پنل موفقیت ============ -->
+      <section class="form-panel" id="panelSuccess" aria-labelledby="successTitle">
+        <div class="success-panel">
+          <div class="success-badge" aria-hidden="true">✓</div>
+          <h1 class="form-heading" id="successTitle"
+              data-fa="عملیات با موفقیت انجام شد"
+              data-en="Operation Successful">
+            عملیات با موفقیت انجام شد
+          </h1>
+          <p class="form-caption" id="successMessage"></p>
+
+          <button class="btn-submit" onclick="showPanel('panelLogin')"
+                  style="margin-top: 24px;"
+                  data-fa="بازگشت به صفحه ورود" data-en="Return to Sign In">
+            بازگشت به صفحه ورود
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- اعلان -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ============================================================
+       وضعیت سراسری - Global State
+       ============================================================ */
+    const AppState = {
+      lang: 'fa',
+      theme: 'royal-purple'
+    };
+
+    /* ============================================================
+       مدیریت صفحات - Panel Management
+       ============================================================ */
+    function showPanel(panelId) {
+      const panels = document.querySelectorAll('.form-panel');
+      const target = document.getElementById(panelId);
+      if (!target) return;
+
+      panels.forEach(p => {
+        if (p.classList.contains('active')) {
+          p.classList.remove('active');
+        }
+      });
+
+      // تأخیر کوچک برای اجرای انیمیشن خروج
+      requestAnimationFrame(() => {
+        target.classList.add('active');
+      });
+    }
+
+    /* ============================================================
+       مدیریت زبان - Language Management
+       ============================================================ */
+    function toggleLanguage() {
+      AppState.lang = AppState.lang === 'fa' ? 'en' : 'fa';
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const html = document.documentElement;
+      const langLabel = document.getElementById('langLabel');
+
+      if (AppState.lang === 'fa') {
+        html.setAttribute('lang', 'fa');
+        html.setAttribute('dir', 'rtl');
+        langLabel.textContent = 'EN';
+      } else {
+        html.setAttribute('lang', 'en');
+        html.setAttribute('dir', 'ltr');
+        langLabel.textContent = 'FA';
+      }
+
+      // ترجمه متن‌ها
+      document.querySelectorAll('[data-fa]').forEach(el => {
+        const text = AppState.lang === 'fa' ? el.dataset.fa : el.dataset.en;
+        if (text) el.textContent = text;
+      });
+
+      // ترجمه placeholder ها
+      document.querySelectorAll('[data-fa-placeholder]').forEach(el => {
+        el.placeholder = AppState.lang === 'fa'
+          ? el.dataset.faPlaceholder
+          : el.dataset.enPlaceholder;
+      });
+
+      localStorage.setItem('auth_lang', AppState.lang);
+    }
+
+    /* ============================================================
+       مدیریت تم - Theme Management
+       ============================================================ */
+    function setTheme(themeName) {
+      AppState.theme = themeName;
+      document.documentElement.setAttribute('data-theme', themeName);
+
+      document.querySelectorAll('.theme-swatch').forEach(sw => {
+        sw.classList.toggle('active', sw.dataset.theme === themeName);
+      });
+
+      localStorage.setItem('auth_theme', themeName);
+    }
+
+    document.querySelectorAll('.theme-swatch').forEach(swatch => {
+      swatch.addEventListener('click', () => setTheme(swatch.dataset.theme));
+    });
+
+    /* ============================================================
+       نمایش/مخفی کردن رمز - Password Visibility
+       ============================================================ */
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.textContent = isHidden ? '🙈' : '👁️';
+      btn.setAttribute('aria-label',
+        isHidden
+          ? (AppState.lang === 'fa' ? 'مخفی کردن رمز' : 'Hide password')
+          : (AppState.lang === 'fa' ? 'نمایش رمز' : 'Show password')
+      );
+    }
+
+    /* ============================================================
+       اعلان‌ها - Toast Notifications
+       ============================================================ */
+    let toastTimer = null;
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast show ' + type;
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
+    /* ============================================================
+       اعتبارسنجی - Validation
+       ============================================================ */
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    /* ============================================================
+       هندلرها - Form Handlers
+       ============================================================ */
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!isValidEmail(email)) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'لطفاً نشانی ایمیل معتبر وارد نمایید'
+            : 'Please enter a valid email address',
+          'error'
+        );
+        return;
+      }
+
+      if (password.length < 6) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'رمز عبور باید حداقل ۶ کاراکتر باشد'
+            : 'Password must be at least 6 characters',
+          'error'
+        );
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.textContent = AppState.lang === 'fa'
+        ? 'در حال ورود...'
+        : 'Signing in...';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = AppState.lang === 'fa' ? 'ورود به حساب' : 'Sign In';
+        showSuccess(
+          AppState.lang === 'fa'
+            ? 'ورود شما با موفقیت انجام شد. خوش آمدید!'
+            : 'You have successfully signed in. Welcome!'
+        );
+      }, 1400);
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name     = document.getElementById('registerName').value.trim();
+      const email    = document.getElementById('registerEmail').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const confirm  = document.getElementById('registerConfirm').value;
+
+      if (name.length < 3) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'نام باید حداقل ۳ کاراکتر باشد'
+            : 'Name must be at least 3 characters',
+          'error'
+        );
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'لطفاً نشانی ایمیل معتبر وارد نمایید'
+            : 'Please enter a valid email address',
+          'error'
+        );
+        return;
+      }
+
+      if (password.length < 6) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'رمز عبور باید حداقل ۶ کاراکتر باشد'
+            : 'Password must be at least 6 characters',
+          'error'
+        );
+        return;
+      }
+
+      if (password !== confirm) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'رمز عبور و تکرار آن یکسان نیستند'
+            : 'Passwords do not match',
+          'error'
+        );
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.textContent = AppState.lang === 'fa'
+        ? 'در حال ایجاد حساب...'
+        : 'Creating account...';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = AppState.lang === 'fa'
+          ? 'ایجاد حساب کاربری'
+          : 'Create Account';
+        showSuccess(
+          AppState.lang === 'fa'
+            ? 'حساب کاربری شما با موفقیت ایجاد گردید.'
+            : 'Your account has been created successfully.'
+        );
+      }, 1400);
+    }
+
+    function handleForgot(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value.trim();
+
+      if (!isValidEmail(email)) {
+        showToast(
+          AppState.lang === 'fa'
+            ? 'لطفاً نشانی ایمیل معتبر وارد نمایید'
+            : 'Please enter a valid email address',
+          'error'
+        );
+        return;
+      }
+
+      const btn = e.target.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.textContent = AppState.lang === 'fa'
+        ? 'در حال ارسال...'
+        : 'Sending...';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = AppState.lang === 'fa'
+          ? 'ارسال پیوند بازیابی'
+          : 'Send Reset Link';
+        showSuccess(
+          AppState.lang === 'fa'
+            ? 'پیوند بازیابی رمز عبور به ایمیل شما ارسال گردید.'
+            : 'A password reset link has been sent to your email.'
+        );
+      }, 1400);
+    }
+
+    function showSuccess(message) {
+      const successMessage = document.getElementById('successMessage');
+      successMessage.textContent = message;
+      successMessage.removeAttribute('data-fa');
+      successMessage.removeAttribute('data-en');
+      showPanel('panelSuccess');
+      showToast(
+        AppState.lang === 'fa' ? 'عملیات با موفقیت انجام شد' : 'Operation completed successfully',
+        'success'
+      );
+    }
+
+    function socialLogin(provider) {
+      showToast(
+        AppState.lang === 'fa'
+          ? `ورود با ${provider} در حال حاضر فعال نیست`
+          : `Sign in with ${provider} is not available yet`,
+        'error'
+      );
+    }
+
+    /* ============================================================
+       افکت سه‌بعدی - 3D Tilt Effect
+       ============================================================ */
+    (function initTiltEffect() {
+      const card = document.getElementById('authCard');
+      if (!card) return;
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isTouch = window.matchMedia('(hover: none)').matches;
+      if (prefersReduced || isTouch) return;
+
+      let rafId = null;
+
+      card.addEventListener('mousemove', (e) => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const rotateX = ((y - cy) / cy) * -4;
+          const rotateY = ((x - cx) / cx) * 4;
+          card.style.transform =
+            `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        card.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg)';
+      });
+    })();
+
+    /* ============================================================
+       میان‌بر کیبورد - Keyboard Shortcut
+       ============================================================ */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        showPanel('panelLogin');
+      }
+    });
+
+    /* ============================================================
+       مقدارگذاری اولیه - Initialization
+       ============================================================ */
+    (function init() {
+      // بازیابی تنظیمات ذخیره‌شده
+      const savedTheme = localStorage.getItem('auth_theme');
+      const savedLang  = localStorage.getItem('auth_lang');
+
+      if (savedTheme) setTheme(savedTheme);
+      if (savedLang && savedLang !== AppState.lang) {
+        AppState.lang = savedLang;
+      }
+      applyLanguage();
+
+      // جلوگیری از ارسال تکراری
+      document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', () => {
+          const btn = form.querySelector('.btn-submit');
+          if (btn) btn.disabled = true;
+          setTimeout(() => {
+            if (btn) btn.disabled = false;
+          }, 2000);
+        }, { capture: true });
+      });
+    })();
+  </script>
+</body>
+</html>
